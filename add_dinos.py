@@ -31,8 +31,14 @@ for dinosaur in dinosaurs:
       temperature=0.5,
       max_tokens=400
     )
+    
+    facts = response.choices[0].text.strip().split('\n')
 
-    facts = response.choices[0].text.strip().split('\n')[1:]
+    # If the first fact is empty or not a fact, remove it
+    if not facts[0]:
+        facts = facts[1:]
+
+    facts = [fact for fact in facts if fact]
 
     # Create an item (JSON document) to be stored in Cosmos DB
     item = {
