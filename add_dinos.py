@@ -5,7 +5,7 @@ import configparser
 
 # Read config file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(r'C:\Users\ericm\OneDrive\Documents\Data Engineering Projects\DinoDB\DinoDB\config.ini')
 
 # OpenAI API setup
 openai.api_key = config.get('openai', 'api_key')
@@ -20,8 +20,8 @@ container_name = config.get('cosmosdb', 'container')
 database = client.get_database_client(database_name)
 container = database.get_container_client(container_name)
 
-# List of dinosaurs to add to the database
-dinosaurs = ['T-Rex', 'Triceratops', 'Velociraptor'] 
+# List of dinosaurs to add to the database (MUST BE LOWER CASE WITHOUT SPECIAL CHARACTERS EXLUDING '-')
+dinosaurs = ['t-rex', 'triceratops', 'velociraptor'] 
 
 for dinosaur in dinosaurs:
     # Generate fun fact with OpenAI API

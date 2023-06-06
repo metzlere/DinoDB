@@ -40,5 +40,5 @@ for item in items:
     for i, fact in enumerate(fun_facts, start=1):
         fact = re.sub(r'\d+\.\s', '', fact)
         tts = gTTS(fact)
-        file_path = os.path.join(dir_path, f'fun_fact_{i}.mp3')
+        file_path = os.path.join(dir_path, f'{dinosaur_name}_fun_fact_{i}.mp3')
         tts.save(file_path)
