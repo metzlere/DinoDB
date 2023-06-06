@@ -2,6 +2,7 @@ from azure.cosmos import CosmosClient, PartitionKey, exceptions
 import os
 import configparser
 from gtts import gTTS
+import re
 
 # Read config file
 config = configparser.ConfigParser()
@@ -37,6 +38,7 @@ for item in items:
     os.makedirs(dir_path, exist_ok=True)
 
     for i, fact in enumerate(fun_facts, start=1):
+        fact = re.sub(r'\d+\.\s', '', fact)
         tts = gTTS(fact)
         file_path = os.path.join(dir_path, f'fun_fact_{i}.mp3')
         tts.save(file_path)
