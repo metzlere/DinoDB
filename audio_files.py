@@ -19,10 +19,6 @@ container_name = config.get('cosmosdb', 'container')
 database = client.get_database_client(database_name)
 container = database.get_container_client(container_name)
 
-# List of dinosaurs to add to the database (MUST BE LOWER CASE WITHOUT SPECIAL CHARACTERS EXLUDING '-')
-dinos_to_create_audio = ['carnotaurus', 'stegosaurus', 'allosaurus']
-
-
 
 # Query the database for all items
 query = "SELECT * FROM c where c.dinosaur in ('carnotaurus', 'stegosaurus', 'allosaurus')"

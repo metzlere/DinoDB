@@ -2,6 +2,7 @@ import openai
 from azure.cosmos import CosmosClient, PartitionKey, exceptions
 import os
 import configparser
+import re
 
 # Read config file
 config = configparser.ConfigParser()
@@ -21,13 +22,13 @@ database = client.get_database_client(database_name)
 container = database.get_container_client(container_name)
 
 # List of dinosaurs to add to the database (MUST BE LOWER CASE WITHOUT SPECIAL CHARACTERS EXLUDING '-')
-dinosaurs = ['t-rex', 'triceratops', 'velociraptor'] 
+dinosaurs = ['carnotaurus', 'stegosaurus', 'allosaurus'] 
 
 for dinosaur in dinosaurs:
     # Generate fun fact with OpenAI API
     response = openai.Completion.create(
       engine="text-davinci-003",
-      prompt=f"Tell me between 5 to 10 fun facts about {dinosaur}. The audience is 8-12 year old's",
+      prompt=f"Tell me between 5 to 10 fun facts about {dinosaur}. Output the facts as a single coherent paragraph. The audience is 8-12 year old's.",
       temperature=0.5,
       max_tokens=400
     )
@@ -40,6 +41,7 @@ for dinosaur in dinosaurs:
 
     facts = [fact for fact in facts if fact]
 
+
     # Create an item (JSON document) to be stored in Cosmos DB
     item = {
         'id': 'DINO'+str(dinosaur),  
@@ -51,5 +53,6 @@ for dinosaur in dinosaurs:
         # Store the item in the database
         container.upsert_item(item)
         print(f'Successfully inserted fun fact for {dinosaur}')
+        print(facts)
     except:
         print(f'Failed to insert fun fact for {dinosaur}')
